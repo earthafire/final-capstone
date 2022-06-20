@@ -1,27 +1,51 @@
 package com.example.capstone;
 
-import weka.core.Instances;
-import weka.core.converters.CSVLoader;
+import com.example.capstone.model.Row;
+import com.opencsv.CSVReader;
 
 import java.io.*;
-import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class CSVParser {
-    public static Instances parseCSV(InputStream file){
-        try {
-            InputStreamReader input = new InputStreamReader(file);
+    public static ArrayList<Row> parseCSV(){
+        ArrayList<Row> rows = new ArrayList<Row>();
 
-            CSVLoader fileLoader = new CSVLoader();
-            fileLoader.setSource(file);
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("survey_results_public.csv");
+        Reader targetReader = new InputStreamReader(is);
+        try (CSVReader csvReader = new CSVReader(targetReader);) {
+            String[] values = null;
+            int count = 0;
+            while ((values = csvReader.readNext()) != null) {
+                if (count == 0) {
+                    count++;
+                    continue;
+                }
+                count++;
+                if (values[10].equalsIgnoreCase("NA") || values[47].equalsIgnoreCase("NA")) {
+                    continue;
+                }
 
-            Instances dataset = fileLoader.getDataSet();
+                String state = values[4];
+                int years;
+                int compensation;
+                try {
+                    years = Integer.parseInt(values[10]);
+                    compensation = Integer.parseInt(values[47]);
+                } catch(NumberFormatException e) {
+                    continue;
+                }
 
-            return dataset;
+                String country = values[3];
+                String orgSize = values[12];
+
+                Row row = new Row(state, years, country, orgSize, compensation);
+                rows.add(row);
+            }
         } catch (IOException e) {
-            System.out.println("can't find file");
             e.printStackTrace();
-            return null;
         }
 
+        return rows;
     }
 }

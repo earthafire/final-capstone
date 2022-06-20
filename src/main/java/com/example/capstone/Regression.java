@@ -1,24 +1,20 @@
 package com.example.capstone;
 
-import weka.attributeSelection.AttributeSelection;
-import weka.attributeSelection.CfsSubsetEval;
-import weka.attributeSelection.GreedyStepwise;
-import weka.classifiers.evaluation.Evaluation;
-import weka.classifiers.functions.LinearRegression;
-import weka.core.Instances;
-import weka.core.converters.ConverterUtils;
-import weka.filters.Filter;
+
+import com.example.capstone.model.Row;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
+import java.util.ArrayList;
 
 public class Regression {
-    public LinearRegression run(Instances dataset) throws Exception {
+    public static double predict(ArrayList<Row> rows, int yearExperience)  {
+        SimpleRegression R = new SimpleRegression();
 
-        LinearRegression lr = new LinearRegression();
-        lr.buildClassifier(dataset);
-        System.out.println(lr);
+        for (Row row : rows) {
+            R.addData(row.getYearsExperience(), row.getConvertedCompensation());
+        }
 
-        Evaluation lrEval = new Evaluation(dataset);
-        lrEval.evaluateModel(lr, dataset);
-        System.out.println(lrEval.toSummaryString());
-        return lr;
+        Double prediction = R.predict(yearExperience);
+        return prediction;
     }
 }
