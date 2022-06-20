@@ -1,7 +1,5 @@
 package com.example.capstone.model;
 
-import java.util.ArrayList;
-
 public class Row {
     private String state;
     private int yearsExperience;

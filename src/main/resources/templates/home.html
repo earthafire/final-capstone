@@ -13,40 +13,31 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Salary Webtool</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/prediction">Salary Calculator</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="home-dashboard">
     <header class="pb-3 mb-4 border-bottom">
-        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-            <span class="fs-4">Salary Generator</span>
+        <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">Salary Charts</span>
         </a>
     </header>
     <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Generate a Salary</h5>
-                <div class="card-text">
-                    <div class="row">
-                        <div class="col">
-                            <form id="salaryForm">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-auto">
-                                        <label for="yearsExperience" class="col-form-label">Years of Experience</label>
-                                    </div>
-                                    <div class="col-auto">
-                                        <input type="number" id="yearsExperience" class="form-control">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-                        </div>
-                        <div class="col">
-                            <div id="generated-salary">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row mt-3">
             <div class="col">
                 <div class="card">
@@ -263,27 +254,6 @@
                 }
             }
         }
-    });
-</script>
-
-<script>
-    $( "#salaryForm" ).submit(function( event ) {
-      event.preventDefault();
-      console.log($("#yearsExperience")[0]);
-      console.log($("#yearsExperience")[0].value);
-      let data = {
-            yearsOfExperience: $("#yearsExperience")[0].value,
-            state: "",
-            organizationSize: "",
-      };
-
-      console.log(data);
-
-      $.post( "/generate", data, null, "json")
-          .done(function( response ) {
-            console.log(response);
-            $("#generated-salary").html("$" + response);
-      });
     });
 </script>
 </html>

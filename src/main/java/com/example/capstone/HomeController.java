@@ -27,6 +27,11 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/prediction")
+    public String prediction(Model model) {
+        return "prediction";
+    }
+
     @PostMapping("/generate")
     @ResponseBody
     int generateSalary(GenerateSalary salary) {
